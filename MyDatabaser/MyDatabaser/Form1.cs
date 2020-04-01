@@ -73,9 +73,22 @@ namespace MyDatabaser
             ReloadButtons();
         }
 
+        private Editor _editor;
         private void RunWithConnection(object sender, EventArgs e)
         {
+            if (sender is System.Windows.Forms.Button button)
+            {
+                _editor = new Editor(_stageStorage, button.Name);
+                _editor.Show();
 
+                _editor.FormClosed += Editor_FormClosed;
+            }
+
+        }
+
+        private void Editor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _editor.FormClosed -= Editor_FormClosed;            
         }
 
         private void LoadTable(List<string> existStages)

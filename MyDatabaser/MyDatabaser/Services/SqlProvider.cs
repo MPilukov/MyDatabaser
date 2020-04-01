@@ -19,64 +19,71 @@ namespace MyDatabaser.Services
             _password = password;
             _database = database;
         }
-        public void Execute(string sql, Action<string> trace)
+        public void Execute(string sql, Action<string> trace, Action<string> traceError)
         {
-            var connectionString = string.IsNullOrEmpty(_database)
-                ? $"server=tcp:{_host};Integrated Security=false; User ID={_userName};Password={_password};"
-                : $"server=tcp:{_host};Integrated Security=false; database=BRK_MSCRM; User ID={_userName};Password={_password};";
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(sql, connection);
-                command.Connection.Open();
-                var reader = command.ExecuteReader();
+                var connectionString = string.IsNullOrEmpty(_database)
+                    ? $"server=tcp:{_host};Integrated Security=false; User ID={_userName};Password={_password};"
+                    : $"server=tcp:{_host};Integrated Security=false; database=BRK_MSCRM; User ID={_userName};Password={_password};";
 
-                var count = reader.VisibleFieldCount;
-
-                var collumns = new StringBuilder();
-                collumns.Append("Columns : ");
-                for (var i = 0; i < count; i++)
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    collumns.Append(reader.GetName(i));
+                    SqlCommand command = new SqlCommand(sql, connection);
+                    command.Connection.Open();
+                    var reader = command.ExecuteReader();
 
-                    if (i < count - 1)
+                    var count = reader.VisibleFieldCount;
+
+                    var collumns = new StringBuilder();
+                    collumns.Append("Columns : ");
+                    for (var i = 0; i < count; i++)
                     {
-                        collumns.Append(", ");
-                    }
-                }
+                        collumns.Append(reader.GetName(i));
 
-                trace(collumns.ToString());
-
-                while (reader.HasRows)
-                {
-                    var counter = 0;
-                    while (reader.Read())
-                    {
-                        var data = new StringBuilder();
-                        data.Append(counter);
-                        data.Append(" : {");
-
-                        for (var i = 0; i < count; i++)
+                        if (i < count - 1)
                         {
-                            data.Append("'");
-                            data.Append(reader.GetValue(i));
-                            data.Append("'");
+                            collumns.Append(", ");
+                        }
+                    }
 
-                            if (i < count - 1)
+                    trace(collumns.ToString());
+
+                    while (reader.HasRows)
+                    {
+                        var counter = 0;
+                        while (reader.Read())
+                        {
+                            var data = new StringBuilder();
+                            data.Append(counter);
+                            data.Append(" : {");
+
+                            for (var i = 0; i < count; i++)
                             {
-                                data.Append(", ");
+                                data.Append("'");
+                                data.Append(reader.GetValue(i));
+                                data.Append("'");
+
+                                if (i < count - 1)
+                                {
+                                    data.Append(", ");
+                                }
                             }
+
+                            data.Append("}");
+
+                            trace(data.ToString());
+
+                            counter++;
                         }
 
-                        data.Append("}");
-
-                        trace(data.ToString());
-
-                        counter++;
+                        reader.NextResult();
                     }
-
-                    reader.NextResult();
                 }
+            }
+            catch (Exception exc)
+            {
+                traceError(exc.ToString());
             }
         }
     }

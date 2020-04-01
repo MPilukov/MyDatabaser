@@ -8,5 +8,6 @@ namespace MyDatabaser.Interfaces
         List<SqlConnectionData> GetStages();
         List<string> GetStageNames();
         void AddStage(SqlConnectionData stage);
+        SqlConnectionData GetStage(string stageName);
     }
 }

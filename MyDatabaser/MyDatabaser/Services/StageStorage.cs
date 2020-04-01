@@ -37,7 +37,7 @@ namespace MyDatabaser.Services
             _storage.Set("Stages", stagesStr);
         }
 
-        private SqlConnectionData GetStage(string stageName)
+        public SqlConnectionData GetStage(string stageName)
         {
             return new SqlConnectionData
             {
