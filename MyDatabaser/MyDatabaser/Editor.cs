@@ -74,5 +74,14 @@ namespace MyDatabaser
 
             this.commonLabel.Text = _commonDescriptor;
         }
+
+        private void QueryTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.F5)
+            {
+                ExecuteButton_Click(sender, e);
+                e.Handled = true;
+            }
+        }
     }
 }

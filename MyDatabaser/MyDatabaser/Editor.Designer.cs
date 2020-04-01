@@ -62,6 +62,7 @@
             this.queryTextBox.Name = "queryTextBox";
             this.queryTextBox.Size = new System.Drawing.Size(1252, 257);
             this.queryTextBox.TabIndex = 4;
+            this.queryTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.QueryTextBox_KeyDown);
             // 
             // informRichTextBox
             // 
