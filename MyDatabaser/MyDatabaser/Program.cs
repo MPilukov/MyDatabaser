@@ -22,10 +22,11 @@ namespace MyDatabaser
 
             var filePath = ConfigurationManager.AppSettings["FilePath"];
             var storage = new FileStorage(filePath);
+            var stageStorage = new StageStorage(storage);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(storage));
+            Application.Run(new MainForm(stageStorage));
         }
     }
 }
