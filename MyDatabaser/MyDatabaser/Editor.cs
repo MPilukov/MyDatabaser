@@ -1,6 +1,7 @@
 ﻿using MyDatabaser.Interfaces;
 using MyDatabaser.Services;
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -28,6 +29,8 @@ namespace MyDatabaser
 
         private void ExecuteButton_Click(object sender, EventArgs e)
         {
+            informRichTextBox.Clear();
+
             var query = this.queryTextBox.Text;
 
             var sb = new StringBuilder();
@@ -39,12 +42,25 @@ namespace MyDatabaser
 
             if (sbError.Length > 0)
             {
-                this.informRichTextBox.Text = $"При выполнении запроса произошла ошибка : {sbError.ToString()}";
+                AppendText(informRichTextBox, $"При выполнении запроса произошла ошибка : ", Color.DarkRed);
+                AppendText(informRichTextBox, Environment.NewLine);
+                AppendText(informRichTextBox, sbError.ToString());
             }
             else
             {
-                this.informRichTextBox.Text = sb.ToString();
+                AppendText(informRichTextBox, sb.ToString());
             }
+        }
+
+        private void AppendText(RichTextBox box, string text, Color? color = null)
+        {
+            box.SelectionStart = box.TextLength;
+            box.SelectionLength = 0;
+
+            box.SelectionColor = color ?? Color.DarkGreen;
+            //box.SelectionFont = font;
+            box.AppendText(text);
+            box.SelectionColor = box.ForeColor;
         }
 
         private void Editor_Load(object sender, EventArgs e)
