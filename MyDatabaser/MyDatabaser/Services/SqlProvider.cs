@@ -25,7 +25,7 @@ namespace MyDatabaser.Services
             {
                 var connectionString = string.IsNullOrEmpty(_database)
                     ? $"server=tcp:{_host};Integrated Security=false; User ID={_userName};Password={_password};"
-                    : $"server=tcp:{_host};Integrated Security=false; database=BRK_MSCRM; User ID={_userName};Password={_password};";
+                    : $"server=tcp:{_host};Integrated Security=false; database={_database}; User ID={_userName};Password={_password};";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
