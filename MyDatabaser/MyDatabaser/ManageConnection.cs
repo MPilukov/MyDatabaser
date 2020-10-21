@@ -36,19 +36,7 @@ namespace MyDatabaser
             {
                 InformUser("Не указан адрес БД");
                 return;
-            }
-
-            if (string.IsNullOrWhiteSpace(host))
-            {
-                InformUser("Не указан хост БД");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(database))
-            {
-                InformUser("Не указан database");
-                return;
-            }            
+            }        
 
             if (string.IsNullOrWhiteSpace(userName))
             {
@@ -73,7 +61,7 @@ namespace MyDatabaser
             {
                 Name = name,
                 Database = database,                
-                Host = $"{address}, {host}",
+                Host = string.IsNullOrWhiteSpace(host) ? address : $"{address}, {host}",
                 UserName = userName,
                 Password = password,
             });

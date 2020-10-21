@@ -23,9 +23,7 @@ namespace MyDatabaser.Services
         {
             try
             {
-                var connectionString = string.IsNullOrEmpty(_database)
-                    ? $"server=tcp:{_host};Integrated Security=false; User ID={_userName};Password={_password};"
-                    : $"server=tcp:{_host};Integrated Security=false; database={_database}; User ID={_userName};Password={_password};";
+                var connectionString = GetConnectionString();
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -85,6 +83,17 @@ namespace MyDatabaser.Services
             {
                 traceError(exc.ToString());
             }
+        }
+
+        private string GetConnectionString()
+        {
+            var server = (_host.Contains(":") || _host.Contains(",")) ? $"tcp:{_host}" : _host;
+
+            var connectionString = string.IsNullOrEmpty(_database)
+                    ? $"server={server};Integrated Security=false; User ID={_userName};Password={_password};"
+                    : $"server={server};Integrated Security=false; database={_database}; User ID={_userName};Password={_password};";            
+
+            return connectionString;
         }
     }
 }
