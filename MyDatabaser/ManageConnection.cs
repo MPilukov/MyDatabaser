@@ -18,7 +18,7 @@ namespace MyDatabaser
             this.hostTextBox.Text = "1433";
         }
 
-        private void InformUser(string message)
+        private static void InformUser(string message)
         {
             MessageBox.Show(message);
         }
@@ -34,26 +34,26 @@ namespace MyDatabaser
 
             if (string.IsNullOrWhiteSpace(address))
             {
-                InformUser("Не указан адрес БД");
+                InformUser("Enter name DB address");
                 return;
             }        
 
             if (string.IsNullOrWhiteSpace(userName))
             {
-                InformUser("Не указано имя пользователя");
+                InformUser("Enter user name");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(password))
             {
-                InformUser("Не указан пароль пользователя");
+                InformUser("Enter user password");
                 return;
             }
 
             var existStageName = _stageStorage.GetStageNames();
             if (existStageName.Any(x => x.Equals(name, StringComparison.InvariantCultureIgnoreCase)))
             {
-                InformUser($"Имя соединения ({name}) уже занято");
+                InformUser($"The connection name ({name}) is already occupied");
                 return;
             }
 

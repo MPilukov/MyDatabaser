@@ -42,7 +42,7 @@ namespace MyDatabaser
 
             if (sbError.Length > 0)
             {
-                AppendText(informRichTextBox, $"При выполнении запроса произошла ошибка : ", Color.DarkRed);
+                AppendText(informRichTextBox, $"Failed to execute the query : ", Color.DarkRed);
                 AppendText(informRichTextBox, Environment.NewLine);
                 AppendText(informRichTextBox, sbError.ToString());
             }
@@ -58,7 +58,6 @@ namespace MyDatabaser
             box.SelectionLength = 0;
 
             box.SelectionColor = color ?? Color.DarkGreen;
-            //box.SelectionFont = font;
             box.AppendText(text);
             box.SelectionColor = box.ForeColor;
         }
@@ -68,7 +67,7 @@ namespace MyDatabaser
             var existStages = _stageStorage.GetStageNames();
             if (!existStages.Any(x => string.Equals(x, _stageName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                MessageBox.Show($"Не найдена конфигурация для {_stageName}");
+                MessageBox.Show($@"Not found configuration {_stageName}");
                 this.Close();
             }
 

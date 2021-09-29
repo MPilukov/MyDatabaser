@@ -25,27 +25,27 @@ namespace MyDatabaser.Services
             {
                 var connectionString = GetConnectionString();
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (var connection = new SqlConnection(connectionString))
                 {
-                    SqlCommand command = new SqlCommand(sql, connection);
+                    var command = new SqlCommand(sql, connection);
                     command.Connection.Open();
                     var reader = command.ExecuteReader();
 
                     var count = reader.VisibleFieldCount;
 
-                    var collumns = new StringBuilder();
-                    collumns.Append("Columns : ");
+                    var columns = new StringBuilder();
+                    columns.Append("Columns : ");
                     for (var i = 0; i < count; i++)
                     {
-                        collumns.Append(reader.GetName(i));
+                        columns.Append(reader.GetName(i));
 
                         if (i < count - 1)
                         {
-                            collumns.Append(", ");
+                            columns.Append(", ");
                         }
                     }
 
-                    trace(collumns.ToString());
+                    trace(columns.ToString());
 
                     while (reader.HasRows)
                     {

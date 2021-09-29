@@ -1,6 +1,5 @@
 ﻿using MyDatabaser.Interfaces;
 using MyDatabaser.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,9 +30,9 @@ namespace MyDatabaser.Services
             return stages.Where(x => !string.IsNullOrEmpty(x)).ToList();
         }
 
-        private void SetStageNames(List<string> stageNames)
+        private void SetStageNames(IEnumerable<string> stageNames)
         {
-            var stagesStr = String.Join("&", stageNames.Where(x => !string.IsNullOrEmpty(x)));
+            var stagesStr = string.Join("&", stageNames.Where(x => !string.IsNullOrEmpty(x)));
             _storage.Set("Stages", stagesStr);
         }
 

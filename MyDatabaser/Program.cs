@@ -7,17 +7,17 @@ using System.Windows.Forms;
 
 namespace MyDatabaser
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             if (!ConfigurationManager.AppSettings.AllKeys.Contains("FilePath"))
             {
-                throw new KeyNotFoundException("Не указан файл для хранения данных.");
+                throw new KeyNotFoundException("The file for storing data is not specified");
             }
 
             var filePath = ConfigurationManager.AppSettings["FilePath"];
